@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="keywords" content="百度地图,百度地图API，百度地图标记，划线，文字备注" />
+    <meta name="description" content="百度地图,百度地图API，百度地图标记，划线，文字备注" />
+    <title>百度地图标记，划线，文字备注</title>
+    <!--引用百度地图API-->
+    <style type="text/css">
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <link rel="stylesheet" href="./index.css">
+    <script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
+    <script src="./index.js"></script>
+</head>
+
+<body>
+    <!--百度地图容器-->
+    <div style="width:100%;height:600px;border:#ccc solid 1px;" id="MapContent"></div>
+    <div class="map_content">
+        <div class="wxp_nav_1">
+            <ul class="wxp_nav_bg3" id="sign_nav_bg">
+                <li class="nav1" onclick="changeSignNav(this,1,event)" usertagpanl="iw" title="点标记">标记地点
+                </li>
+                <li class="nav2" onclick="changeSignNav(this,2,event)" usertagpanl="pl" title="线标记">手绘路线
+                </li>
+                <li class="nav3" onclick="changeSignNav(this,3,event)" usertagpanl="lb" title="文字标记">文字备注
+                </li>
+            </ul>
+        </div>
+        <div id="sign_content_1" style="position: relative; overflow: hidden; display:none;">
+            <p class="wxp_con_2" id="pointIconCon">
+                <a href="javascript:exitPtIcon()" class="null">̨返回</a><br>
+                <a class="on" onclick="setPtIcon(11);return false" href="javascript:void(0);"><img class="sp_s sp_11"
+                        src="http://api.map.baidu.com/lbsapi/creatmap/images/transparent.gif"></a><a onclick="setPtIcon(12);return false"
+                    href="javascript:void(0);"><img class="sp_s sp_12" src="http://api.map.baidu.com/lbsapi/creatmap/images/transparent.gif"></a><a
+                    onclick="setPtIcon(13);return false" href="javascript:void(0);"><img class="sp_s sp_13"
+                        src="http://api.map.baidu.com/lbsapi/creatmap/images/transparent.gif"></a><a onclick="setPtIcon(14);return false"
+                    href="javascript:void(0);"><img class="sp_s sp_14" src="http://api.map.baidu.com/lbsapi/creatmap/images/transparent.gif"></a><a
+                    onclick="setPtIcon(15);return false" href="javascript:void(0);"><img class="sp_s sp_15"
+                        src="http://api.map.baidu.com/lbsapi/creatmap/images/transparent.gif"></a><a onclick="setPtIcon(16);return false"
+                    href="javascript:void(0);"><img class="sp_s sp_16" src="http://api.map.baidu.com/lbsapi/creatmap/images/transparent.gif"></a><a
+                    onclick="setPtIcon(21);return false" href="javascript:void(0);"><img class="sp_s sp_21"
+                        src="http://api.map.baidu.com/lbsapi/creatmap/images/transparent.gif"></a><a onclick="setPtIcon(22);return false"
+                    href="javascript:void(0);"><img class="sp_s sp_22" src="http://api.map.baidu.com/lbsapi/creatmap/images/transparent.gif"></a><a
+                    onclick="setPtIcon(23);return false" href="javascript:void(0);"><img class="sp_s sp_23"
+                        src="http://api.map.baidu.com/lbsapi/creatmap/images/transparent.gif"></a><a onclick="setPtIcon(24);return false"
+                    href="javascript:void(0);"><img class="sp_s sp_24" src="http://api.map.baidu.com/lbsapi/creatmap/images/transparent.gif"></a><a
+                    onclick="setPtIcon(25);return false" href="javascript:void(0);"><img class="sp_s sp_25"
+                        src="http://api.map.baidu.com/lbsapi/creatmap/images/transparent.gif"></a><a onclick="setPtIcon(26);return false"
+                    href="javascript:void(0);"><img class="sp_s sp_26" src="http://api.map.baidu.com/lbsapi/creatmap/images/transparent.gif"></a><a
+                    onclick="setPtIcon(31);return false" href="javascript:void(0);"><img class="sp_s sp_31"
+                        src="http://api.map.baidu.com/lbsapi/creatmap/images/transparent.gif"></a><a onclick="setPtIcon(32);return false"
+                    href="javascript:void(0);"><img class="sp_s sp_32" src="http://api.map.baidu.com/lbsapi/creatmap/images/transparent.gif"></a><a
+                    onclick="setPtIcon(33);return false" href="javascript:void(0);"><img class="sp_s sp_33"
+                        src="http://api.map.baidu.com/lbsapi/creatmap/images/transparent.gif"></a><a onclick="setPtIcon(34);return false"
+                    href="javascript:void(0);"><img class="sp_s sp_34" src="http://api.map.baidu.com/lbsapi/creatmap/images/transparent.gif"></a><a
+                    onclick="setPtIcon(35);return false" href="javascript:void(0);"><img class="sp_s sp_35"
+                        src="http://api.map.baidu.com/lbsapi/creatmap/images/transparent.gif"></a><a onclick="setPtIcon(36);return false"
+                    href="javascript:void(0);"><img class="sp_s sp_36" src="http://api.map.baidu.com/lbsapi/creatmap/images/transparent.gif"></a>
+            </p>
+            <p id="signPointTip" style="display:none" class="signTip">
+                Tip
+            </p>
+            <ul class="wxp_lis_1" id="signPointList">
+                <li id="signiwNoListTip" style="display: none;">
+                    还没有在地图上添加点标记，点击上面的按钮开始在地图上添加点标记
+                </li>
+                <li id="iwListCon0" class="signLihover">
+                    <div class="wxp_nav_3">
+                        <div id="iwEdit0" style="display:none;float:right;margin:0;"><span
+                                onclick="editSignList('iw',0)">编辑</span> | <span onclick="removeSignList('iw',0)">删除</span>
+                        </div><b id="iwFormTitle_0" class="cur_point" onclick="_gl.openInfoWnd('',0);">我的标记1</b><span
+                            style="color:#f00;cursor:auto;display:none" id="iwSaveTip0">(未保存)</span>
+                    </div>
+                    <div class="wxp_con_1" id="iwList0">
+                        <ul class="wxp_lis_2">
+                            <li class="li_hei1"><span class="wxp_nav_4">标记图标：</span><span class="wxp_img_con1"
+                                    onclick="goPtIcon(this)"><img class="sp_s sp_11" id="iwFormIcon_0"
+                                        src="http://api.map.baidu.com/lbsapi/creatmap/images/transparent.gif"></span> </li>
+                            <li><span class="wxp_nav_4">名　称：</span><input type="text" value="我的标记" id="iwFormName_0"
+                                    class="ptInput1" onfocus="updateIwInfo(this,'title',0)"
+                                    onblur="delIwInfoUdT(this,'title',0)"></li>
+                            <li class="hei2"><span class="wxp_nav_4">备　注：</span><textarea class="ptInput2"
+                                    id="iwFormContent_0" onfocus="updateIwInfo(this,'content',0)"
+                                    onblur="delIwInfoUdT(this,'content',0)">我的备注</textarea></li>
+                        </ul>
+                        <div class="wxp_con_3" style="margin-top:7px;"><input type="button" value="保　存"
+                                onclick="submitSignList('iw',0)"><input type="button" value="取　消"
+                                onclick="cancelSignList('iw',0)"></div>
+                    </div>
+                </li>
+            </ul>
+            <div style="color: rgb(128, 128, 128); padding: 5px;" id="signiwSaveTip">
+                (提示：请保存未保存的点标记，未保存的点标记在获取代码时内容不是最新的！)
+            </div>
+        </div>
+        <div id="sign_content_2" style="display: none;">
+            <p id="signPolyLineTip" style="display:none" class="signTip">
+                Tip
+            </p>
+            <ul class="wxp_lis_1" id="signPolylineList">
+                <li id="signplNoListTip" style="">
+                    还没有在地图上添加线标记，点击上面的按钮开始在地图上添加线标记
+                </li>
+            </ul>
+            <div style="color: rgb(128, 128, 128); padding: 5px; display: none;" id="signplSaveTip">
+                (提示：请保存未保存的线标记，未保存的线标记在获取代码时内容不是最新的！)
+            </div>
+        </div>
+        <div id="sign_content_3" style="display: none;">
+            <p id="signRemarkTip" style="display:none" class="signTip">
+                Tip
+            </p>
+            <ul class="wxp_lis_1" id="signRemarkList">
+                <li id="signlbNoListTip" style="display: none;">
+                    还没有在地图上添加文字标记，点击上面的按钮开始在地图上添加文字标记
+                </li>
+                <li id="lbListCon0" class="signLihover">
+                    <div class="wxp_nav_3">
+                        <div id="lbEdit0" style="float:right;margin:0;display:none"><span
+                                onclick="editSignList('lb',0)">编辑</span> | <span onclick="removeSignList('lb',0)">删除</span>
+                        </div><b id="lbFormTitle_0" onclick="gotoBestMap('lb',0)" class="cur_point">文字备注1</b><span
+                            style="color:#f00;cursor:auto;display:none" id="lbSaveTip0">(未保存)</span>
+                    </div>
+                    <div class="wxp_con_1" id="lbList0">
+                        <ul class="wxp_lis_2">
+                            <li class="hei3"><span class="wxp_nav_4">内　容：</span><textarea class="ptInput2"
+                                    id="lbFormContent_0" onfocus="updateLbInfo(this,0)"
+                                    onblur="delLbInfoUdT(this,0)">我的标记</textarea></li>
+                        </ul>
+                        <div class="wxp_con_3"><input type="button" value="保　存" onclick="submitSignList('lb',0)"><input
+                                type="button" value="取　消" onclick="cancelSignList('lb',0)"></div>
+                    </div>
+                </li>
+            </ul>
+            <div style="color: rgb(128, 128, 128); padding: 5px;" id="signlbSaveTip">
+                (提示：请保存未保存的文字标记，未保存的文字标记在获取代码时内容不是最新的！)
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    //创建和初始化地图函数：
+    initMap()
+    function initMap() {
+        createMap();//创建地图
+    }
+
+    //创建地图函数：
+    function createMap() {
+        var map = new BMap.Map("MapContent");//在百度地图容器中创建一个地图
+        var point = new BMap.Point(116.368642, 39.909684);//定义一个中心点坐标
+        map.centerAndZoom(point, 15);//设定地图的中心点和坐标并将地图显示在地图容器中
+        window.map = map;//将map变量存储在全局
+    }
+
+    //地图事件设置函数：
+    function setMapEvent() {
+        map.enableDragging();//启用地图拖拽事件，默认启用(可不写)
+        map.enableScrollWheelZoom();//启用地图滚轮放大缩小
+        map.enableDoubleClickZoom();//启用鼠标双击放大，默认启用(可不写)
+        map.enableKeyboard();//启用键盘上下左右键移动地图
+    }
+
+    
+</script>
+
+</html>
